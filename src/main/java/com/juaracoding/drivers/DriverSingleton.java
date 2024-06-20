@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 public class DriverSingleton {
 
-    private static DriverSingleton instane = null;
+    private static DriverSingleton instance = null;
 
     private static WebDriver driver;
 
@@ -22,6 +22,30 @@ public class DriverSingleton {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         return driver;
+    }
+
+    public static DriverSingleton getInstance(String driver){
+        if(instance == null) {
+            instance = new DriverSingleton(driver);
+        }
+        return instance;
+    }
+
+    public static WebDriver getDriver(){
+        return driver;
+    }
+
+    public static void delay(long detik){
+        try {
+            Thread.sleep(detik*1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void closeObjectInstance(){
+        instance = null;
+        driver.quit();
     }
 
 
